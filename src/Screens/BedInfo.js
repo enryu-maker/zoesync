@@ -1,9 +1,23 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { MedicationInfo, MedicationReport, PatientInfo } from './Info'
 
 export default function BedInfo() {
     const navigate = useNavigate()
     const { state } = useLocation()
+    const [count, setCount] = React.useState(0)
+
+    function changeAbout(count){
+        switch(count){
+            case 0 :
+                return <PatientInfo/>
+            case 1 :
+                return <MedicationInfo/>
+            case 2 :
+                return <MedicationReport/>
+        }
+    }
+
     return (
         <div>
             <div className='h-[70px] bg-blue-600 w-[100vw] flex justify-center items-center'>
@@ -27,20 +41,40 @@ export default function BedInfo() {
                         className=' font-extrabold text-lg cursor-pointer hover:text-blue-600' >Room&nbsp; </span> / {state?.bed_id}
                 </p>
             </div>
-            <div className='flex bg-white items-start justify-evenly w-full h-full' >
-                <div className=' h-[250px] w-[30%] flex-col flex justify-evenly items-start'>
-                    <p className=' border-b-2 font-medium text-lg'>
+            <div className='flex mt-10 bg-white flex-row items-start justify-evenly w-full h-full' >
+                <div className=' flex-col flex justify-between items-start space-y-5'>
+                    <button
+                        onClick={() => {
+                            setCount(0)
+                        }}
+                        className=' border-b-2 font-medium text-lg'>
                         Patient Details
-                    </p>
-                    <p className=' border-b-2 font-medium text-lg'>
+                    </button>
+                    <button
+                        onClick={() => {
+                            setCount(1)
+                        }}
+                        className=' border-b-2 font-medium text-lg'>
                         Medication
-                    </p>
-                    <p className=' border-b-2 font-medium text-lg'>
+                    </button>
+                    <button
+                        onClick={() => {
+                            setCount(2)
+                        }}
+                        className=' border-b-2 font-medium text-lg'>
                         Medical Report
-                    </p>
+                    </button>
+                    <button
+                        onClick={() => {
+                            setCount(3)
+                        }}
+                        className=' border-b-2 text-red-600 font-medium text-lg'>
+                        Discharge
+                    </button>
                 </div>
-                <div className=' h-[50vh] w-[70%] bg-black'>
-                    hi
+                <div className='h-[20vh] w-[1px] bg-black' />
+                <div className=' h-[50vh] w-[75%]'>
+                    {changeAbout(count)}
                 </div>
             </div>
         </div>

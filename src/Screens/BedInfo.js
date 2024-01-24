@@ -7,14 +7,14 @@ export default function BedInfo() {
     const { state } = useLocation()
     const [count, setCount] = React.useState(0)
 
-    function changeAbout(count){
+    function changeAbout(count,state){
         switch(count){
             case 0 :
-                return <PatientInfo/>
+                return <PatientInfo item={state}/>
             case 1 :
-                return <MedicationInfo/>
+                return <MedicationInfo item={state}/>
             case 2 :
-                return <MedicationReport/>
+                return <MedicationReport item={state}/>
         }
     }
 
@@ -27,7 +27,7 @@ export default function BedInfo() {
                     </h1>
                     <h3 className='text-white font-bold text-xl tracking-normal'>
                         Bed No : <span className='text-white text-xl font-bold tracking-normal'>
-                            {state?.bed_id}
+                            {state?.bed_number}
                         </span>
                     </h3>
                 </div>
@@ -38,7 +38,7 @@ export default function BedInfo() {
                         onClick={() => {
                             navigate(-1)
                         }}
-                        className=' font-extrabold text-lg cursor-pointer hover:text-blue-600' >Room&nbsp; </span> / {state?.bed_id}
+                        className=' font-extrabold text-lg cursor-pointer hover:text-blue-600' >Room&nbsp; </span> / {state?.bed_number}
                 </p>
             </div>
             <div className='flex mt-10 bg-white flex-row items-start justify-evenly w-full h-full' >
@@ -74,7 +74,7 @@ export default function BedInfo() {
                 </div>
                 <div className='h-[20vh] w-[1px] bg-black' />
                 <div className=' h-[50vh] w-[75%]'>
-                    {changeAbout(count)}
+                    {changeAbout(count,state)}
                 </div>
             </div>
         </div>

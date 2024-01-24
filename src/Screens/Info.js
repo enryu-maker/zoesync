@@ -1,4 +1,6 @@
-export const PatientInfo = () => {
+export const PatientInfo = ({
+    item
+}) => {
     return (
         <div className="h-full w-full">
             <p className=' border-b-2 py-5 text-blue-600 tracking-widest font-bold text-center text-3xl'>
@@ -9,7 +11,7 @@ export const PatientInfo = () => {
                     <img class="inline h-[180px] rounded-full"
                         src="https://avatars2.githubusercontent.com/u/24622175?s=60&amp;v=4" />
                     <p className=' text-blue-600 tracking-widest font-bold text-center text-2xl'>
-                        Jane Deo
+                        {item.patient?.firstname} {item.patient?.lastname}
                     </p>
                 </div>
                 <div className="w-[70%]">
@@ -19,19 +21,32 @@ export const PatientInfo = () => {
                         </p>
                         <div className="flex flex-wrap w-[100%] justify-between items-center space-y-2">
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold text-xl '>
-                                First Name : Jane
+                                First Name : {item.patient?.firstname}
                             </p>
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
-                                Last Name : Deo
+                                Last Name : {item.patient?.lastname}
                             </p>
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
-                                Gender : Male
+                                Gender : {item.patient?.gender}
                             </p>
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
-                                Contact : 9405649047
+                                Contact : {item?.patient?.contact_number}
                             </p>
-                            <p className=' text-gray-600 tracking-widest font-semibold  text-xl '>
-                                Email : akifkhan60067@gmial.com
+                        </div>
+                    </div>
+                    <div className="w-[100%] rounded-lg shadow-lg h-[10%] mt-6 p-4 space-y-2">
+                        <p className=' text-blue-600 tracking-widest font-bold text-start text-2xl'>
+                            Emergency Details :
+                        </p>
+                        <div className="flex flex-wrap w-[100%] justify-between items-center space-y-2">
+                            <p className=' text-gray-600 w-[40%] tracking-widest font-semibold text-xl '>
+                                Name : {item?.patient?.emergency_contact?.name}
+                            </p>
+                            <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
+                                Phone : {item?.patient?.emergency_contact?.phone}
+                            </p>
+                            <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
+                                Relation : {item?.patient?.emergency_contact?.relationship}
                             </p>
                         </div>
                     </div>
@@ -41,13 +56,13 @@ export const PatientInfo = () => {
                         </p>
                         <div className="flex flex-wrap w-[100%] justify-between items-center space-y-2">
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold text-xl '>
-                                Date : 12/06/2023
+                                Date : {item?.patient?.admission_date}
                             </p>
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
-                                Nurse : Heroin
+                                Nurse : {item?.patient?.attending_nurse}
                             </p>
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
-                                Doctor : Dr. Ramesh
+                                Doctor : {item?.patient?.attending_physician}
                             </p>
                         </div>
                     </div>

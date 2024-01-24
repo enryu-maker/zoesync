@@ -1,9 +1,13 @@
 import React from 'react'
 import { Image } from '../Assets/image'
 import { Discuss } from 'react-loader-spinner'
-
+import { useDispatch } from 'react-redux'
+import { AuthAction } from '../Store/actions'
+import { useNavigate } from 'react-router-dom'
 export default function Home() {
     const [loading, setLoading] = React.useState(false)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     return (
         <div className='flex h-[100vh] w-[100vw] bg-slate-50 justify-center'>
             <div className='w-[70%]'
@@ -28,7 +32,11 @@ export default function Home() {
                     Place your Access Card on System and press start
                 </p>
                 <img src={Image.contactless} className='h-[120px] w-[120px]' />
-                <button className='bg-white tracking-widest text-blue-600 py-2 px-5 rounded-lg font-bold'>
+                <button 
+                onClick={()=>{
+                    dispatch(AuthAction(setLoading,navigate))
+                }}
+                className='bg-white tracking-widest text-blue-600 py-2 px-5 rounded-lg font-bold'>
                     {
                         loading ?
                             <Discuss

@@ -10,7 +10,7 @@ export default function App() {
 
     {/* After Auth */}
     <Route path="/room" element={<Room/>}/>
-    <Route path="/info" element={<BedInfo/>}/>
+    <Route path="/info/:id" element={<BedInfo/>}/>
    </Routes>
   )
 }

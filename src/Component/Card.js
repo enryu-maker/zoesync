@@ -5,12 +5,13 @@ export default function Card({
     item,
     disable
 }) {
+    console.log("carddata",item?.patientID)
     const navigate = useNavigate()
     return (
         <button 
         disabled={disable}
         onClick={()=>{
-            navigate('/info',{
+            navigate(`/info/${item?.patientID}`,{
                 state:item
             })
         }}
@@ -33,7 +34,7 @@ export default function Card({
                                 Patient Name : <span
                                     className='font-semibold'
                                 >
-                                    {item.patient?.firstname} {item.patient?.lastname}
+                                    {item.patientData?.firstname} {item.patientData?.lastname}
                                 </span>
                             </p>
                         </>

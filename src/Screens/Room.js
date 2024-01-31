@@ -4,20 +4,21 @@ import FlatList from 'flatlist-react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetClean, GetRoom, UpdateClean } from '../Store/actions';
+import { Oval } from 'react-loader-spinner';
 
 export default function Room() {
     const [cleaned, setCleaned] = React.useState(false)
-    const {state} = useLocation()
-    const [data,setData] = React.useState(JSON.parse(state.replace(/'/g, '"')))
-    const [bed,setBed] = React.useState([])
-    const [loading,setLoading] = React.useState(false)
-    const room = useSelector(state=>state.Reducers.room)
+    const { state } = useLocation()
+    const [data, setData] = React.useState(JSON.parse(state.replace(/'/g, '"')))
+    const [bed, setBed] = React.useState([])
+    const [loading, setLoading] = React.useState(false)
+    const room = useSelector(state => state.Reducers.room)
     const dispatch = useDispatch()
-    React.useEffect(()=>{
-        dispatch(GetRoom(setBed,setLoading))
+    React.useEffect(() => {
+        dispatch(GetRoom(setBed, setLoading))
         dispatch(GetClean(setLoading))
-        console.log(room)
-    },[])
+        console.log("bed", bed)
+    }, [])
     return (
         <div>
             <div className='h-[70px] bg-blue-600 w-[100vw] flex justify-center items-center'>
@@ -43,7 +44,7 @@ export default function Room() {
                     <FlatList
                         list={bed.data}
                         renderItem={(item, index) => {
-                            return <Card disable={data?.id==0} key={index} item={item} />
+                            return <Card disable={data?.id == 0} key={index} item={item} />
                         }}
                     />
                 </div>
@@ -52,15 +53,41 @@ export default function Room() {
                     Cleaning Status :
                 </h1>
                 <button
-                    disabled={data?.id != 0}
-                    onClick={()=>{
-                        dispatch(UpdateClean())
-                    }}
-                    className={room?.room?.clean?'bg-green-600 px-5 py-2 rounded-lg font-bold text-white tracking-widest':'bg-red-600 px-5 py-2 rounded-lg font-bold text-white tracking-widest'}>
+                    className={room?.room?.clean ? 'bg-green-600 px-5 py-2 rounded-lg font-bold text-white tracking-widest' : 'bg-red-600 px-5 py-2 rounded-lg font-bold text-white tracking-widest'}>
                     {
-                        room?.room?.clean? "Clean" : "Dirty"
+                        room?.room?.clean ? "Clean" : "Dirty"
                     }
                 </button>
+                {
+                    data?.id == 0 ?
+                        <div>
+                            <input type='file' />
+                            <button
+                                onClick={() => {
+                                    dispatch(UpdateClean())
+                                }}
+                                className='bg-blue-600 tracking-widest text-white py-2 px-5 rounded-lg font-bold'>
+                                {
+                                    loading ?
+                                        <Oval
+                                            visible={true}
+                                            height={40}
+                                            width={40}
+                                            ariaLabel="discuss-loading"
+                                            wrapperStyle={{}}
+                                            wrapperClass="discuss-wrapper"
+                                            color="#fff"
+                                            backgroundColor="#F4442E"
+                                        />
+                                        :
+                                        "Update"
+                                }
+
+                            </button>
+                        </div>
+                        :
+                        null
+                }
             </div>
         </div>
     )

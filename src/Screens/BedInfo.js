@@ -27,7 +27,7 @@ export default function BedInfo() {
                     </h1>
                     <h3 className='text-white font-bold text-xl tracking-normal'>
                         Bed No : <span className='text-white text-xl font-bold tracking-normal'>
-                            {state?.bed_number}
+                            {state?.bed_no}
                         </span>
                     </h3>
                 </div>
@@ -38,7 +38,7 @@ export default function BedInfo() {
                         onClick={() => {
                             navigate(-1)
                         }}
-                        className=' font-extrabold text-lg cursor-pointer hover:text-blue-600' >Room&nbsp; </span> / {state?.bed_number}
+                        className=' font-extrabold text-lg cursor-pointer hover:text-blue-600' >Room&nbsp; </span> / {state?.bed_no}
                 </p>
             </div>
             <div className='flex mt-10 bg-white flex-row items-start justify-evenly w-full h-full' >

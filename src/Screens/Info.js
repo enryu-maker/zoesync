@@ -2,15 +2,15 @@ import React from "react"
 import { useDispatch } from "react-redux"
 import { GetPatient } from "../Store/actions"
 import { useLocation } from "react-router-dom"
-
+import { FaRegUser } from "react-icons/fa";
 export const PatientInfo = ({
 }) => {
-    const {pathname} = useLocation()
+    const { state } = useLocation()
     const [data, setData] = React.useState([])
     const dispatch = useDispatch()
-    React.useEffect(() => {
-        dispatch(GetPatient(pathname.split('/')[2], setData))
-    }, [])
+    // React.useEffect(() => {
+    //     dispatch(GetPatient(pathname.split('/')[2], setData))
+    // }, [])
     return (
         <div className="h-full w-full">
             <p className=' border-b-2 py-5 text-blue-600 tracking-widest font-bold text-center text-3xl'>
@@ -18,10 +18,9 @@ export const PatientInfo = ({
             </p>
             <div className="flex flex-row justify-between items-start mt-10">
                 <div className="w-[25%] flex-col space-y-5 rounded-lg shadow-lg flex justify-evenly items-center py-[20px]">
-                    <img class="inline h-[180px] rounded-full"
-                        src="https://robohash.org/70e4bce94ce28439fd4fbe2e38a7e5be?set=set4&bgset=&size=400x400" />
+                    <FaRegUser size={100} />
                     <p className=' text-blue-600 tracking-widest font-bold text-center text-2xl'>
-                        {data?.firstname} {data?.lastname}
+                        {state?.patient?.first_name} {state?.patient?.last_name}
                     </p>
                 </div>
                 <div className="w-[70%]">
@@ -31,16 +30,19 @@ export const PatientInfo = ({
                         </p>
                         <div className="flex flex-wrap w-[100%] justify-between items-center space-y-2">
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold text-xl '>
-                                First Name : {data?.firstname}
+                                First Name : {state?.patient?.first_name}
                             </p>
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
-                                Last Name : {data?.lastname}
+                                Last Name : {state?.patient?.last_name}
                             </p>
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
-                                Gender : {data?.gender}
+                                Gender : {state?.patient?.gender}
                             </p>
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
-                                Contact : {data?.contact_number}
+                                Blood Group : {state?.patient?.blood_group}
+                            </p>
+                            <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
+                                Age : {state?.patient?.age}
                             </p>
                         </div>
                     </div>
@@ -50,13 +52,13 @@ export const PatientInfo = ({
                         </p>
                         <div className="flex flex-wrap w-[100%] justify-between items-center space-y-2">
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold text-xl '>
-                                Name : {data?.emergency_contact?.name}
+                                Name : {state?.patient?.emergency_contact?.name}
                             </p>
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
-                                Phone : {data?.emergency_contact?.phone}
+                                Phone : {state?.patient?.emergency_contact?.phonenumber}
                             </p>
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
-                                Relation : {data?.emergency_contact?.relationship}
+                                Relation : {state?.patient?.emergency_contact?.relation}
                             </p>
                         </div>
                     </div>
@@ -66,13 +68,13 @@ export const PatientInfo = ({
                         </p>
                         <div className="flex flex-wrap w-[100%] justify-between items-center space-y-2">
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold text-xl '>
-                                Date : {data?.admission_date}
+                                Date : {state?.patient?.admission_date}
                             </p>
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
-                                Nurse : {data?.attending_nurse}
+                                Nurse : {state?.patient?.attending_nurse}
                             </p>
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
-                                Doctor : {data?.attending_physician}
+                                Doctor : {state?.patient?.attending_physician}
                             </p>
                         </div>
                     </div>
@@ -84,44 +86,37 @@ export const PatientInfo = ({
 
 export const MedicationInfo = ({
 }) => {
-    const {pathname} = useLocation()
-    const [data, setData] = React.useState([])
-    const dispatch = useDispatch()
-    React.useEffect(() => {
-        dispatch(GetPatient(pathname.split('/')[2], setData))
-    }, [])
+    const { state } = useLocation()
+    console.log(state)
     return (
         <div className="h-full w-full">
             <p className=' border-b-2 py-5 text-blue-600 tracking-widest font-bold text-center text-3xl'>
                 Medication Details
             </p>
-            <div className="w-[100%] rounded-lg shadow-lg mt-6 p-4 space-y-2">
-                {
-                    data?.medication?.map((item) => (
-                        <div className="flex flex-wrap w-[100%] justify-between items-center space-y-2">
-                            <p className=' text-gray-600 w-[40%] tracking-widest font-semibold text-xl '>
-                                Medicine Time : {item?.medtime}
+            {
+                state?.patient?.medication?.map((item) => (
+                    <div className="w-[100%] rounded-lg flex flex-wrap justify-evenly items-center shadow-lg mt-6 py-4">
+                            <p className=' text-gray-600 w-[40%] capitalize text-base '>
+                                Medicine Time : {item?.take} {item?.timing} Food
                             </p>
-                            <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
-                                Medicine Name : {item?.medname}
+                            <p className=' text-gray-600 w-[40%]  text-base '>
+                                Medicine Name : {item?.medicine?.medicine_name}
                             </p>
-                        </div>
-                    ))
-                }
+                            <button className={`${item?.medicine?.status?"bg-green-600":"bg-red-600"} py-1 px-4 rounded-lg text-white`}>
+                                Feed : {item?.medicine?.status?"Yes":"No"}
+                            </button>
+                    </div>
 
-            </div>
+                ))
+            }
+
         </div>
     )
 }
 
 export const MedicationReport = ({
 }) => {
-    const {pathname} = useLocation()
-    const [data, setData] = React.useState([])
-    const dispatch = useDispatch()
-    React.useEffect(() => {
-        dispatch(GetPatient(pathname.split('/')[2], setData))
-    }, [])
+    const { state } = useLocation()
     return (
         <div className="h-full w-full">
             <p className=' border-b-2 py-5 text-blue-600 tracking-widest font-bold text-center text-3xl'>
@@ -129,7 +124,7 @@ export const MedicationReport = ({
             </p>
             <div className="w-[100%] rounded-lg shadow-lg mt-6 p-4 space-y-2">
                 {
-                    data?.medicationHistory?.map((item) => (
+                    state?.patient?.medicationHistory?.map((item) => (
                         <div className="flex flex-wrap w-[100%] justify-between items-center space-y-2">
                             <p className=' text-gray-600 w-[40%] tracking-widest font-semibold text-xl '>
                                 Disease Date : {item?.date}

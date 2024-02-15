@@ -16,8 +16,8 @@ export default function Room() {
     const dispatch = useDispatch()
     React.useEffect(() => {
         dispatch(GetRoom(setBed, setLoading))
-        dispatch(GetClean(setLoading))
-        console.log("bed", bed)
+        // dispatch(GetClean(setLoading))
+        // console.log("bed", bed)
     }, [])
     return (
         <div>
@@ -35,14 +35,14 @@ export default function Room() {
             </div>
             <div className='p-5 space-y-5' >
                 <h1 className='text-blue-600 font-black text-3xl tracking-widest'>
-                    Room Overview (R-189)
+                    Room Overview (R-{bed?.room_number})
                 </h1>
                 <h1 className='text-blue-600 font-black text-xl tracking-widest'>
                     Bed Status :
                 </h1>
                 <div className='flex flex-wrap w-[100%] self-center py-6 overflow-y-scroll justify-evenly items-center'>
                     <FlatList
-                        list={bed.data}
+                        list={bed?.bed}
                         renderItem={(item, index) => {
                             return <Card disable={data?.id == 0} key={index} item={item} />
                         }}

@@ -3,7 +3,7 @@ import axios from "axios"
 export const AuthAction = (setLoading, navigate) => {
     setLoading(true)
     return async dispatch => {
-        await axios.get("http://localhost:8080/auth").then((res) => {
+        await axios.get("http://localhost:8000/auth/").then((res) => {
             console.log(res.data)
             dispatch({
                 type: 'LOGIN',
@@ -32,7 +32,7 @@ export const AuthAction = (setLoading, navigate) => {
 export const GetRoom = (setData, setLoading) => {
     setLoading(true)
     return async dispatch => {
-        await axios.get("http://localhost:8080/getroom/").then((res) => {
+        await axios.get("http://127.0.0.1:8000/room-details/200/").then((res) => {
             setData(res.data)
             setLoading(false)
         })
@@ -45,7 +45,7 @@ export const GetRoom = (setData, setLoading) => {
 
 export const GetClean = () => {
     return async dispatch => {
-        await axios.post("http://localhost:8080/getcleaning/", {
+        await axios.post("http://127.0.0.1:8000/change-room-clean-status/200/", {
             room_number: "R189"
         }).then((res) => {
             dispatch({
@@ -73,9 +73,9 @@ export const GetPatient = (id, setData) => {
     }
 }
 
-export const UpdateClean = () => {
+export const UpdateMeds = () => {
     return async dispatch => {
-        await axios.post("http://localhost:8080/updatecleaning/", {
+        await axios.post("http://127.0.0.1:8000/change-medication-status/", {
             room_number: "R189",
             status: true
         }).then((res) => {

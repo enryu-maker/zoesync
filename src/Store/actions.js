@@ -3,7 +3,7 @@ import axios from "axios"
 export const AuthAction = (setLoading, navigate) => {
     setLoading(true)
     return async dispatch => {
-        await axios.get("http://localhost:8000/auth/").then((res) => {
+        await axios.get("http://127.0.01:8000/auth/").then((res) => {
             console.log(res.data)
             dispatch({
                 type: 'LOGIN',
@@ -61,11 +61,9 @@ export const GetClean = () => {
 
 export const GetPatient = (id, setData) => {
     return async dispatch => {
-        await axios.post(`http://localhost:8080/getpatient/`, {
-            id: id
-        }).then((res) => {
-            console.log("data", res.data.patient)
-            setData(res.data?.patient)
+        await axios.get(`http://127.0.0.1:8000/patients/${id}/`).then((res) => {
+            console.log("data", res.data)
+            setData(res.data)
         })
             .catch((err) => {
                 console.log(err)
@@ -73,14 +71,12 @@ export const GetPatient = (id, setData) => {
     }
 }
 
-export const UpdateMeds = () => {
+export const UpdateMeds = (id,patientID,setData) => {
     return async dispatch => {
-        await axios.post("http://127.0.0.1:8000/change-medication-status/", {
-            room_number: "R189",
-            status: true
-        }).then((res) => {
-            dispatch(GetClean())
-            alert(res.data.msg)
+        await axios.patch(`http://127.0.0.1:8000/change-medication-status/${id}/`)
+        .then((res) => {
+            dispatch(GetPatient(patientID,setData))
+            alert("Status Update Sucessfully")
         })
             .catch((err) => {
                 console.log(err)

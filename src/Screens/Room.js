@@ -3,7 +3,7 @@ import Card from '../Component/Card'
 import FlatList from 'flatlist-react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetClean, GetRoom, UpdateClean } from '../Store/actions';
+import { GetClean, GetRoom } from '../Store/actions';
 import { Oval } from 'react-loader-spinner';
 
 export default function Room() {
@@ -64,7 +64,7 @@ export default function Room() {
                             <input type='file' />
                             <button
                                 onClick={() => {
-                                    dispatch(UpdateClean())
+                                    // dispatch(UpdateClean())
                                 }}
                                 className='bg-blue-600 tracking-widest text-white py-2 px-5 rounded-lg font-bold'>
                                 {

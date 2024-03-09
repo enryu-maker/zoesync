@@ -26,7 +26,7 @@ export default function Home() {
             </div>
             <div className='w-[30%] bg-blue-600 flex flex-col justify-center items-center space-y-5'>
                 <h1 className='text-white font-black text-4xl tracking-normal'>
-                    Lets SYNC you to R-189
+                    Lets SYNC you to R-200
                 </h1>
                 <p className='text-white font-light'>
                     Place your Access Card on System and press start
@@ -53,7 +53,6 @@ export default function Home() {
                             :
                             "Start Syncing"
                     }
-
                 </button>
             </div>
 

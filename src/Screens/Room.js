@@ -3,21 +3,20 @@ import Card from '../Component/Card'
 import FlatList from 'flatlist-react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetClean, GetRoom } from '../Store/actions';
+import { GetClean, GetRoom, getMeds } from '../Store/actions';
 import { Oval } from 'react-loader-spinner';
 
 export default function Room() {
     const [cleaned, setCleaned] = React.useState(false)
     const { state } = useLocation()
-    const [data, setData] = React.useState(JSON.parse(state.replace(/'/g, '"')))
+    const [data, setData] = React.useState(JSON.parse(state?.replace(/'/g, '"')))
     const [bed, setBed] = React.useState([])
+    const [med, setMeds] = React.useState([])
     const [loading, setLoading] = React.useState(false)
-    const room = useSelector(state => state.Reducers.room)
+    const room = useSelector(state => state?.Reducers?.room)
     const dispatch = useDispatch()
     React.useEffect(() => {
         dispatch(GetRoom(setBed, setLoading))
-        // dispatch(GetClean(setLoading))
-        // console.log("bed", bed)
     }, [])
     return (
         <div>

@@ -1,12 +1,14 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { MedicationInfo, MedicationReport, PatientInfo } from './Info'
+import { useDispatch } from 'react-redux'
+import { Discharge } from '../Store/actions'
 
 export default function BedInfo() {
     const navigate = useNavigate()
     const { state } = useLocation()
     const [count, setCount] = React.useState(0)
-
+    const dispatch = useDispatch()
     function changeAbout(count,state){
         switch(count){
             case 0 :
@@ -66,7 +68,7 @@ export default function BedInfo() {
                     </button>
                     <button
                         onClick={() => {
-                            setCount(3)
+                            dispatch(Discharge(navigate))
                         }}
                         className=' border-b-2 text-red-600 font-medium text-lg'>
                         Discharge

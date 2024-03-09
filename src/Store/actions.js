@@ -16,7 +16,7 @@ export const AuthAction = (setLoading, navigate) => {
             }
             else {
                 navigate('/room', {
-                    state: res.data.user
+                    state: res?.data?.user
                 })
             }
 
@@ -71,16 +71,60 @@ export const GetPatient = (id, setData) => {
     }
 }
 
-export const UpdateMeds = (id,patientID,setData) => {
+export const UpdateMeds = (id, patientID, setData) => {
     return async dispatch => {
         await axios.patch(`http://127.0.0.1:8000/change-medication-status/${id}/`)
-        .then((res) => {
-            dispatch(GetPatient(patientID,setData))
-            alert("Status Update Sucessfully")
-        })
+            .then((res) => {
+                dispatch(GetPatient(patientID, setData))
+                alert("Status Update Sucessfully")
+            })
             .catch((err) => {
                 console.log(err)
 
             })
+    }
+}
+
+
+export const GetMeds = (setData) => {
+    return async dispatch => {
+        await axios.get(`http://127.0.01:8000/get-medicines/`)
+            .then((res) => {
+                console.log(res.data)
+                setData(res.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+}
+
+export const AddMeds = (Id, medId, timing, take) => {
+    return async dispatch => {
+        await axios.post(`http://127.0.01:8000/add-medicine/${Id}/${medId}/`,
+            {
+                "timing": timing,
+                "take": take
+            }
+        )
+            .then((res) => {
+                alert("Medication Added Successfully");
+            })
+            .catch((err) => {
+                alert("Error Adding Medication")
+            })
+    }
+}
+
+export const Discharge = (navigate) => {
+    return async dispatch => {
+        navigate('/discharge')
+        // await axios.get(`http://127.0.01:8000/discharge/${id}/`)
+        //     .then((res) => {
+        //         console.log(res.data)
+        //     })
+        //     .catch((err) => {
+        //         alert("Error Discharging")
+        //     })
     }
 }

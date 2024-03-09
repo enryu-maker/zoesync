@@ -1,8 +1,9 @@
 import React from "react"
 import { useDispatch } from "react-redux"
-import { GetPatient, UpdateMeds } from "../Store/actions"
+import { GetMeds, GetPatient, UpdateMeds, getMeds } from "../Store/actions"
 import { useLocation } from "react-router-dom"
 import { FaRegUser } from "react-icons/fa";
+import AddModal from "./AddModal";
 export const PatientInfo = ({
 }) => {
     const { state } = useLocation()
@@ -88,38 +89,79 @@ export const MedicationInfo = ({
 }) => {
     const { state } = useLocation()
     const [data, setData] = React.useState([])
-    console.log(data.medication)
+    const [meds, setMeds] = React.useState([])
+    const [show, setShow] = React.useState(false)
+    const [name, setName] = React.useState("")
+    const [id, setId] = React.useState("")
+
     const dispatch = useDispatch()
     React.useEffect(() => {
         dispatch(GetPatient(state?.patient?.id, setData))
+        dispatch(GetMeds(setMeds))
+        setId(state?.patient?.id)
     }, [])
     return (
         <div className="h-full w-full">
+            <AddModal setIsOpen={setShow} modalIsOpen={show} medicine={name} patient={id} setMeds={setMeds} />
             <p className=' border-b-2 py-5 text-blue-600 tracking-widest font-bold text-center text-3xl'>
                 Medication Details
             </p>
-            {
-                data?.medication?.map((item,index) => (
-                    <div
-                    key={index}
-                    className="w-[100%] rounded-lg flex flex-wrap justify-evenly items-center shadow-lg mt-6 py-4">
-                            <p className=' text-gray-600 w-[40%] capitalize text-base '>
-                                Medicine Time : {item?.take} {item?.timing} Food
-                            </p>
-                            <p className=' text-gray-600 w-[40%]  text-base '>
-                                Medicine Name : {item?.medicine?.medicine_name}
-                            </p>
-                            <button 
-                            onClick={()=>{
-                                dispatch(UpdateMeds(item?.id,state?.patient?.id,setData))
-                            }}
-                            className={`${item?.status?"bg-green-600":"bg-red-600"} py-1 px-4 rounded-lg text-white`}>
-                                Taken : {item?.status?"Yes":"No"}
-                            </button>
-                    </div>
+            <div className="w-[100%] flex flex-row justify-between ">
+                <div className="w-[60%] ">
+                    {
+                        data?.medication?.map((item, index) => (
+                            <div
+                                key={index}
+                                className="rounded-lg flex flex-wrap justify-center items-start border-2 py-1 mt-6 ">
+                                <p className=' text-gray-600 w-[40%]  capitalize text-base '>
+                                    Medicine Time : {item?.take} {item?.timing} Food
+                                </p>
+                                <p className=' text-gray-600 w-[40%]  text-base '>
+                                    Medicine Name : {item?.medicine?.medicine_name}
+                                </p>
+                                <button
+                                    onClick={() => {
+                                        dispatch(UpdateMeds(item?.id, state?.patient?.id, setData))
+                                    }}
+                                    className={`${item?.status ? "bg-green-600" : "bg-red-600"} py-1 px-4 rounded-lg text-white`}>
+                                    Taken : {item?.status ? "Yes" : "No"}
+                                </button>
+                            </div>
 
-                ))
-            }
+                        ))
+                    }
+                </div>
+                <div className="w-[30%] py-2 flex flex-col justify-center items-start ">
+                    <p
+                        className=" text-xl font-medium self-center"
+                    >
+                        Available Medicine
+                    </p>
+                    <div className="w-[100%] h-[50vh] overflow-y-scroll ">
+                        {
+                            meds?.map((item, index) => (
+                                <button
+                                    key={index}
+                                    className="px-2 py-1 w-[100%] flex flex-row justify-between  border-2 mt-6">
+                                    <p
+                                        onClick={() => {
+                                            setShow(!show)
+                                            setName(item)
+                                        }}
+                                    >
+                                        {item?.medicine_name}
+                                    </p>
+                                    <p
+                                    >
+                                        +
+                                    </p>
+                                </button>
+                            ))
+                        }
+                    </div>
+                </div>
+            </div>
+
 
         </div>
     )
@@ -133,20 +175,10 @@ export const MedicationReport = ({
             <p className=' border-b-2 py-5 text-blue-600 tracking-widest font-bold text-center text-3xl'>
                 Medication Report
             </p>
-            <div className="w-[100%] rounded-lg shadow-lg mt-6 p-4 space-y-2">
-                {
-                    state?.patient?.medicationHistory?.map((item) => (
-                        <div className="flex flex-wrap w-[100%] justify-between items-center space-y-2">
-                            <p className=' text-gray-600 w-[40%] tracking-widest font-semibold text-xl '>
-                                Disease Date : {item?.date}
-                            </p>
-                            <p className=' text-gray-600 w-[40%] tracking-widest font-semibold  text-xl '>
-                                Disease Name : {item?.disease}
-                            </p>
-                        </div>
-                    ))
-                }
-
+            <div className="w-[100%] border-2 mt-6 p-4 space-y-2">
+                <p className=" text-justify">
+                    {`${state?.patient?.medical_history}`}
+                </p>
             </div>
         </div>
     )
